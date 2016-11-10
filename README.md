@@ -16,7 +16,7 @@ Log into Postgres :
 ```
 pqsl
 ```
-Now you can create youre Database (!dont forget the semikolon after each operation!):
+Now you can create your Database (!dont forget the semikolon after each operation!):
 ```
 CREATE DATABASE project;
 ```
@@ -30,7 +30,7 @@ ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
 ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
 ALTER ROLE myprojectuser SET timezone TO 'UTC';
 ```
-Now the User needs access to our database:
+Now the User needs access to your database:
 ```
 GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
 ```
@@ -54,7 +54,7 @@ DATABASES = {
     }
 }
 ```
-Apply the migrations to youre database.
+Apply the migrations to your database.
 Go into youre Project.
 Setting up the initial databse structure:
 ```
