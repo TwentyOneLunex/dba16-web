@@ -1,19 +1,56 @@
 **Project from the FH-Bielefeld in Germany**
 
+For this you have to install Django on your enviroment.
+
+
 First install a Postgresql-Database on your own Computer.
+```
+sudo apt-get update
+sudo apt-get install python-pip python-dev libpq-dev postgresql postgresql-contrib
+```
+Change to the User who was created by the commands before (postgres):
+```
+sudo su - postgres
+```
+Log into Postgres :
+```
+pqsl
+```
+Now you can create youre Database (!dont forget the semikolon after each operation!):
+```
+CREATE DATABASE project;
+```
+Create a User:
+```
+CREATE USER myUser WITH PASSWORD 'MyPassword';
+```
+Make some Setups for speeding up operations:
+```
+ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
+ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
+ALTER ROLE myprojectuser SET timezone TO 'UTC';
+```
+Now the User needs access to our database:
+```
+GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
+```
+Back to the user's shell:
+```
+/q
+exit
+```
 After that, you can start coding with Django.
 
 The Setup for the server you can see in YourProject/polls/YourProject/settings.py
 ```
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangodb',
-        'USER': 'djangouser',
-        'PASSWORD': 'yourepw',
-        'HOST': 'yourehost',
-        'PORT': 'youreport',
-
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'project',
+        'USER': 'myUser',
+        'PASSWORD': 'myPassword',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 ```
