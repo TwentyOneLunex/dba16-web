@@ -39,7 +39,7 @@ Back to the user's shell:
 /q
 exit
 ```
-After that, you can start coding with Django.
+After that, you can start coding with **Django**.
 
 The Setup for the server you can see in YourProject/polls/YourProject/settings.py
 ```
@@ -54,3 +54,24 @@ DATABASES = {
     }
 }
 ```
+Apply the migrations to youre database.
+Go into youre Project.
+Setting up the initial databse structure:
+```
+python manage.py mkaemigrations
+python manage.py migrate
+```
+Create an administrative account:
+```
+python manage.py createsuperuser
+```
+Select a username,emailadress and password.
+Test youre Server:
+```
+python manage.py runserver 0.0.0.0:8000
+```
+Visit your server in your web browser:
+```
+http://server_domain_or_IP:8000
+```
+Maybe : localhost:8000
