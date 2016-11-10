@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,12 +77,11 @@ WSGI_APPLICATION = 'wohlfühlprojekt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangodb',
-        'USER': 'djangouser',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
-
+        'NAME': 'testdb',
+        'USER': 'testadmin',
+        'PASSWORD': 'qwertz',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
