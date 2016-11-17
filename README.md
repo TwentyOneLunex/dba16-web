@@ -36,7 +36,7 @@ GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
 ```
 Back to the user's shell:
 ```
-/q
+\q
 exit
 ```
 After that, you can start coding with **Django**.
