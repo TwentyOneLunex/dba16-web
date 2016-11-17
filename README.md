@@ -39,6 +39,29 @@ Back to the user's shell:
 \q
 exit
 ```
+For the REST SERVICE DJANGO-RESTFRAMEWORK you need to install:
+```
+pip install djangorestframework
+pip install markdown       # Markdown support for the browsable API.
+pip install django-filter  # Filtering support
+```
+Add 'rest_framework' to your INSTALLED_APPS setting in settings.py.
+```
+INSTALLED_APPS = (
+    ...
+    'rest_framework',
+)
+```
+If you're intending to use the browsable API you'll probably also want to add REST framework's login and logout views. Add the following to your root urls.py file.
+```
+urlpatterns = [
+    ...
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+]
+```
+More Information on Django REST Framework:
+http://www.django-rest-framework.org/
+
 After that, you can start coding with **Django**.
 
 The Setup for the server you can see in YourProject/polls/YourProject/settings.py
