@@ -42,7 +42,7 @@ exit
 After that, you can start coding with **Django**.
 
 The Setup for the server you can see in YourProject/YourProject/settings.py.
-In our case: dba16-web/wohlfühlprojekt/settings.py.
+In our case: dba16-web/wohlfuehlprojekt/settings.py.
 
 ```
 DATABASES = {
