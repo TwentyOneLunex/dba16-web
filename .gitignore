@@ -2,3 +2,5 @@
 polls/__pycache__/
 polls/migrations/
 wohlfuehlprojekt/__pycache__/
+wohlfuehlprojekt/settings.py
+myvenv
