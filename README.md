@@ -14,7 +14,7 @@ sudo su - postgres
 ```
 Log into Postgres :
 ```
-pqsl
+psql
 ```
 Now you can create your Database (!dont forget the semikolon after each operation!):
 ```
