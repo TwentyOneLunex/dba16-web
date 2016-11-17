@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'wohlfühlprojekt.urls'
+ROOT_URLCONF = 'wohlfuehlprojekt.urls'
 
 TEMPLATES = [
     {
@@ -68,19 +68,19 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'wohlfühlprojekt.wsgi.application'
+WSGI_APPLICATION = 'wohlfuehlprojekt.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'testdb',
-        'USER': 'testadmin',
-        'PASSWORD': 'qwertz',
-        'HOST': '127.0.0.1',
+        'NAME': 'djangodb',
+        'USER': 'djangouser',
+        'PASSWORD': 'djpw16',
+        'HOST': '195.37.227.161',
         'PORT': '5432',
     }
 }

@@ -14,7 +14,7 @@ sudo su - postgres
 ```
 Log into Postgres :
 ```
-pqsl
+psql
 ```
 Now you can create your Database (!dont forget the semikolon after each operation!):
 ```
@@ -36,12 +36,14 @@ GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
 ```
 Back to the user's shell:
 ```
-/q
+\q
 exit
 ```
 After that, you can start coding with **Django**.
 
-The Setup for the server you can see in YourProject/polls/YourProject/settings.py
+The Setup for the server you can see in YourProject/YourProject/settings.py.
+In our case: dba16-web/wohlfuehlprojekt/settings.py.
+
 ```
 DATABASES = {
     'default': {
@@ -55,10 +57,10 @@ DATABASES = {
 }
 ```
 Apply the migrations to your database.
-Go into youre Project.
+Go into your Project (the "dba16-web" folder).
 Setting up the initial databse structure:
 ```
-python manage.py mkaemigrations
+python manage.py makemigrations
 python manage.py migrate
 ```
 Create an administrative account:
