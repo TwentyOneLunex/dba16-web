@@ -40,10 +40,11 @@ Back to the user's shell:
 exit
 ```
 For the REST SERVICE DJANGO-RESTFRAMEWORK you need to install:
-The django REST framework, markdown support for browsable API and filtering support
 ```
 sudo pip install djangorestframework markdown django-filter
 ```
+The django REST framework, markdown support for browsable API and filtering support
+
 Add 'rest_framework' to your INSTALLED_APPS setting in settings.py.
 ```
 INSTALLED_APPS = (
