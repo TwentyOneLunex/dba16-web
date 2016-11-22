@@ -3,4 +3,6 @@ polls/__pycache__/
 polls/migrations/
 wohlfuehlprojekt/__pycache__/
 wohlfuehlprojekt/settings.py
+useradministration/__pycache__/
+useradministration/migration/
 myvenv
