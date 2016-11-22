@@ -79,9 +79,13 @@ DATABASES = {
     }
 }
 ```
+
+To start your server. Open another terminal and navigate to /etc/init.d/ and start your database with "./postgresql start".
+With the command "psql -l" you can see your running databases.
+
 Apply the migrations to your database.
 Go into your Project (the "dba16-web" folder).
-Setting up the initial databse structure:
+And set up the initial databse structure:
 ```
 python manage.py makemigrations
 python manage.py migrate
