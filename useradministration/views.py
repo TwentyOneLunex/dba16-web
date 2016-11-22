@@ -19,7 +19,7 @@ class JSONResponse(HttpResponse):
 @csrf_exempt
 def user_list(request):
     """
-    List all code snippets, or create a new snippet.
+    List all users, or create a new user.
     """
     if request.method == 'GET':
         users = User.objects.all()
@@ -38,10 +38,10 @@ def user_list(request):
 @csrf_exempt
 def user_detail(request, pk):
     """
-    Retrieve, update or delete a code snippet.
+    Retrieve, update or delete userdata.
     """
     try:
-        users = User.objects.get(pk=pk)
+        users = User.objects.get(username=pk)
     except User.DoesNotExist:
         return HttpResponse(status=404)
 
