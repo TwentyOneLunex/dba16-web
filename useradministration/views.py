@@ -60,3 +60,26 @@ def user_detail(request, pk):
     elif request.method == 'DELETE':
         users.delete()
         return HttpResponse(status=204)
+
+
+@csrf_exempt
+def auth_check(request):
+    try:
+        data = JSONParser().parse(request)
+        users = User.objects.get(username=data['username'])
+    except User.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'POST':
+
+        if data['password'] == users.password:
+            content = {
+                'authenticated': 'true'
+            }
+            return JSONResponse(content)
+        else:
+            content = {
+                'authenticated': 'false'
+            }
+        return JSONResponse(content)
+    return HttpResponse(status=404)
