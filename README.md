@@ -62,6 +62,34 @@ urlpatterns = [
 More Information on Django REST Framework:
 http://www.django-rest-framework.org/
 
+To avoid Crossiteskripting Conflicts install Django CORS Headers
+```
+pip install django-cors-headers
+```
+make some changest in settings.py:
+
+add to intalled apps
+```
+INSTALLED_APPS = (
+    ...
+    'corsheaders',
+    ...
+)
+```
+add to middleware
+```
+MIDDLEWARE = [  # Or MIDDLEWARE_CLASSES on Django < 1.10
+    ...
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    ...
+]
+```
+for now we allow all crossitescriptings
+```
+CORS_ORIGIN_ALLOW_ALL = True
+```
+
 After that, you can start coding with **Django**.
 
 The Setup for the server you can see in YourProject/YourProject/settings.py.

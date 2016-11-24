@@ -68,7 +68,10 @@ def auth_check(request):
         data = JSONParser().parse(request)
         users = User.objects.get(username=data['username'])
     except User.DoesNotExist:
-        return HttpResponse(status=404)
+        content = {
+            'authenticated': 'false'
+        }
+        return JSONResponse(content)
 
     if request.method == 'POST':
 
