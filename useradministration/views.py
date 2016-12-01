@@ -108,12 +108,7 @@ def create_user(request):
         newUser.age = request.POST['age']
         newUser.gender = request.POST['gender']
 
-        entry = Entry.objects.get(username=newUser.username)
-        if not entry.exists():
-            return render(request, 'useradministration/registrationView.html', {
-                'error_message': "Dieser Benutzername existiert bereits!",
-            })
-        elif newUser.password != request.POST['password_rep']:
+        if newUser.password != request.POST['password_rep']:
             return render(request, 'useradministration/registrationView.html', {
                 'error_message': "Das Passwort wurde falsch wiederholt!",
             })
