@@ -89,12 +89,15 @@ def auth_check(request):
         return JSONResponse(content)
     return HttpResponse(status=404)
 
+
 def registration_successful(request):
     return HttpResponse("Benutzer wurde angelegt :)")
+
 
 def show_user_registration_form(request):
     context = {}
     return render(request, 'useradministration/registrationView.html', context)
+
 
 def create_user(request):
     try:
