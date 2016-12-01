@@ -98,24 +98,27 @@ def show_user_registration_form(request):
 
 def create_user(request):
     try:
-        a = 5 / 0
+        newUser = User()
+        newUser.username = request.POST['username']
+        newUser.password = request.POST['password']
+        newUser.email = request.POST['email']
+        newUser.age = request.POST['age']
+        newUser.gender = request.POST['gender']
 
-        #newUser = User()
-        #newUser.username = request.POST['username']
-        #newUser.password = request.POST['password']
-        #newUser.email = request.POST['email']
-        #newUser.age = request.POST['age']
-        #newUser.gender = request.POST['gender']
-
-        #print(newUser.username)
-        #and so on...
-
-        #newUser.safe()
+        entry = Entry.objects.get(username=newUser.username)
+        if not entry.exists():
+            return render(request, 'useradministration/registrationView.html', {
+                'error_message': "Dieser Benutzername existiert bereits!",
+            })
+        elif newUser.password != request.POST['password_rep']:
+            return render(request, 'useradministration/registrationView.html', {
+                'error_message': "Das Passwort wurde falsch wiederholt!",
+            })
+        else:
+            newUser.save()
     except:
-        print("An error occured while adding a new user!")
         return render(request, 'useradministration/registrationView.html', {
             'error_message': "Es wurden nicht alle Felder korrekt ausgefüllt!",
         })
     else:
-        print("A new user was successfully registered")
         return HttpResponseRedirect(reverse('useradministration:reg_ok'))
