@@ -89,28 +89,33 @@ def auth_check(request):
         return JSONResponse(content)
     return HttpResponse(status=404)
 
+
 def registration_successful(request):
     return HttpResponse("Benutzer wurde angelegt :)")
+
 
 def show_user_registration_form(request):
     context = {}
     return render(request, 'useradministration/registrationView.html', context)
 
+
 def create_user(request):
     try:
-        a = 5 / 0
+        newUser = User()
+        newUser.username = request.POST['username']
+        newUser.password = request.POST['password']
+        newUser.email = request.POST['email']
+        newUser.age = request.POST['age']
+        newUser.gender = request.POST['gender']
 
-        #newUser = User()
-        #newUser.username = request.POST['username']
-        #newUser.password = request.POST['password']
-        #newUser.email = request.POST['email']
-        #newUser.age = request.POST['age']
-        #newUser.gender = request.POST['gender']
-
-        #print(newUser.username)
+        print(newUser.username)
+        print(newUser.password)
+        print(newUser.email)
+        print(newUser.age)
+        print(newUser.username)
         #and so on...
 
-        #newUser.safe()
+        newUser.save()
     except:
         print("An error occured while adding a new user!")
         return render(request, 'useradministration/registrationView.html', {
