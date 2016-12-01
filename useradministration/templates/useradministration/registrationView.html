@@ -1,0 +1,30 @@
+<h1>Neuen Benutzer registrieren</h1>
+
+{% if error_message %}<p><strong><font color="red">{{ error_message }}</font></strong></p>{% endif %}
+
+<form action="{% url 'useradministration:create_user' %}" method="post">
+  {% csrf_token %}
+  Login:<br>
+  <input type="text" name="username"><br>
+  <br>
+  Passwort:<br>
+  <input type="text" name="password"><br>
+  <br>
+  Passwort wiederholen:<br>
+  <input type="text" name="password_rep"><br>
+  <br>
+  E-Mail:<br>
+  <input type="text" name="email"><br>
+  <br>  
+  Alter:<br>
+  <input type="text" name="age"><br>
+  <br>
+  Geschlecht:<br>
+  <select name="gender" size="2">
+    <option value="m">Männlich</option>
+    <option value="f">Weiblich</option>
+  </select>
+  <br>
+  <br>
+  <input type="submit" value="OK"/>
+</form>

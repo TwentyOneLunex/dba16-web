@@ -1,4 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
@@ -86,3 +88,34 @@ def auth_check(request):
             }
         return JSONResponse(content)
     return HttpResponse(status=404)
+
+def registration_successful(request):
+    return HttpResponse("Benutzer wurde angelegt :)")
+
+def show_user_registration_form(request):
+    context = {}
+    return render(request, 'useradministration/registrationView.html', context)
+
+def create_user(request):
+    try:
+        a = 5 / 0
+
+        #newUser = User()
+        #newUser.username = request.POST['username']
+        #newUser.password = request.POST['password']
+        #newUser.email = request.POST['email']
+        #newUser.age = request.POST['age']
+        #newUser.gender = request.POST['gender']
+
+        #print(newUser.username)
+        #and so on...
+
+        #newUser.safe()
+    except:
+        print("An error occured while adding a new user!")
+        return render(request, 'useradministration/registrationView.html', {
+            'error_message': "Es wurden nicht alle Felder korrekt ausgefüllt!",
+        })
+    else:
+        print("A new user was successfully registered")
+        return HttpResponseRedirect(reverse('useradministration:reg_ok'))
