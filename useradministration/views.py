@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from useradministration.models import User
-from useradministration.serializers import UserSerializer
+from useradministration.models import User, Questionary
+from useradministration.serializers import UserSerializer, QuestionarySerializer
 
 
 class JSONResponse(HttpResponse):
@@ -120,3 +120,48 @@ def create_user(request):
         })
     else:
         return HttpResponseRedirect(reverse('useradministration:reg_ok'))
+
+
+@csrf_exempt
+def questionary_list(request):
+    """
+    List all users, or create a new user.
+    """
+    if request.method == 'GET':
+        questionarys = Questionary.objects.all()
+        serializer = QuestionarySerializer(questionarys, many=True)
+        return JSONResponse(serializer.data)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = QuestionarySerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data, status=201)
+        return JSONResponse(serializer.errors, status=400)
+
+@csrf_exempt
+def questionary_detail(request, pk):
+    """
+    Retrieve, update or delete userdata.
+    """
+    try:
+        questionarys = Questionary.objects.get(id=pk)
+    except Questionary.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = QuestionarySerializer(questionarys)
+        return JSONResponse(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = UserSerializer(questionarys, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data)
+        return JSONResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        questionarys.delete()
+        return HttpResponse(status=204)
