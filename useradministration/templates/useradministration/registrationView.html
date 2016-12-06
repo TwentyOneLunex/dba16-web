@@ -1,28 +1,28 @@
-<h1>Neuen Benutzer registrieren</h1>
+<h1>USER REGISTRATION</h1>
 
 {% if error_message %}<p><strong><font color="red">{{ error_message }}</font></strong></p>{% endif %}
 
-<form action="{% url 'useradministration:create_user' %}" method="post">
+<form action="{% url 'useradministration:reg_user' %}" method="post">
   {% csrf_token %}
-  Login:<br>
-  <input type="text" name="username"><br>
+  username:<br>
+  <input type="text" name="username" {% if username %}value="{{ username }}"{% endif %}><br>
   <br>
-  Passwort:<br>
-  <input type="text" name="password"><br>
+  password:<br>
+  <input type="text" name="password" {% if password %}value="{{ password }}"{% endif %}><br>
   <br>
-  Passwort wiederholen:<br>
-  <input type="text" name="password_rep"><br>
+  repeat password:<br>
+  <input type="text" name="password_rep" {% if password %}value="{{ password_rep }}"{% endif %}><br>
   <br>
-  E-Mail:<br>
-  <input type="text" name="email"><br>
+  email address:<br>
+  <input type="text" name="email" {% if email %}value="{{ email }}"{% endif %}><br>
   <br>  
-  Alter:<br>
-  <input type="text" name="age"><br>
+  age:<br>
+  <input type="text" name="age" {% if age %}value="{{ age }}"{% endif %}><br>
   <br>
-  Geschlecht:<br>
+  gender:<br>
   <select name="gender" size="2">
-    <option value="f" selected="selected">Weiblich</option>
-    <option value="m">Männlich</option>
+    <option value="f" selected="selected">female</option>
+    <option value="m">male</option>
   </select>
   <br>
   <br>

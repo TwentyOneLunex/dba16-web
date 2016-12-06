@@ -91,32 +91,39 @@ def auth_check(request):
 
 
 def registration_successful(request):
-    return HttpResponse("Benutzer wurde angelegt :)")
-
+    return HttpResponse("<font color=\"green\">User was successfully registered :)</font>")
 
 def show_user_registration_form(request):
-    context = {}
-    return render(request, 'useradministration/registrationView.html', context)
-
-
-def create_user(request):
-    try:
-        newUser = User()
-        newUser.username = request.POST['username']
-        newUser.password = request.POST['password']
-        newUser.email = request.POST['email']
-        newUser.age = request.POST['age']
-        newUser.gender = request.POST['gender']
-
-        if newUser.password != request.POST['password_rep']:
+    if request.method == 'GET':
+        return render(request, 'useradministration/registrationView.html', {})
+    elif request.method == 'POST':
+        def reload(errorMsg):
             return render(request, 'useradministration/registrationView.html', {
-                'error_message': "Das Passwort wurde falsch wiederholt!",
+                'error_message': errorMsg,
+                'username': request.POST['username'],
+                'password': request.POST['password'],
+                'password_rep': request.POST['password_rep'],
+                'email': request.POST['email'],
+                'age': request.POST['age'],
             })
-        else:
-            newUser.save()
-    except:
-        return render(request, 'useradministration/registrationView.html', {
-            'error_message': "Es wurden nicht alle Felder korrekt ausgefüllt!",
-        })
-    else:
-        return HttpResponseRedirect(reverse('useradministration:reg_ok'))
+
+        try:
+            data = request.POST
+            newUser = User(username = data['username'],
+                           password = data['password'],
+                           email = data['email'],
+                           age = data['age'],
+                           gender = data['gender'])
+
+            if newUser.password != data['password_rep']:
+                return reload("password was repeated wrongly")
+            else:
+                try:
+                    newUser.save_forRegView()
+                    return HttpResponseRedirect(reverse('useradministration:reg_ok'))
+                except ValueError as e:
+                    return reload(e)
+                except:
+                    raise
+        except:
+            return reload("something went terribly wrong")
