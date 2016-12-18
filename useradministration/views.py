@@ -4,8 +4,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from useradministration.models import User, Questionary
-from useradministration.serializers import UserSerializer, QuestionarySerializer
+from useradministration.models import User, Question, Choice, UserAnswer
+from useradministration.serializers import UserSerializer
+import json
 
 
 class JSONResponse(HttpResponse):
@@ -93,6 +94,7 @@ def auth_check(request):
 def registration_successful(request):
     return HttpResponse("<font color=\"green\">User was successfully registered :)</font>")
 
+
 def show_user_registration_form(request):
     if request.method == 'GET':
         return render(request, 'useradministration/registrationView.html', {})
@@ -128,46 +130,74 @@ def show_user_registration_form(request):
         except:
             return reload("something went terribly wrong")
 
-@csrf_exempt
-def questionary_list(request):
-    """
-    List all users, or create a new user.
-    """
-    if request.method == 'GET':
-        questionarys = Questionary.objects.all()
-        serializer = QuestionarySerializer(questionarys, many=True)
-        return JSONResponse(serializer.data)
-
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = QuestionarySerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        return JSONResponse(serializer.errors, status=400)
 
 @csrf_exempt
-def questionary_detail(request, pk):
-    """
-    Retrieve, update or delete userdata.
-    """
+def question_add(request):
     try:
-        questionarys = Questionary.objects.get(id=pk)
-    except Questionary.DoesNotExist:
-        return HttpResponse(status=404)
-
-    if request.method == 'GET':
-        serializer = QuestionarySerializer(questionarys)
-        return JSONResponse(serializer.data)
-
-    elif request.method == 'PUT':
         data = JSONParser().parse(request)
-        serializer = UserSerializer(questionarys, data=data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data)
-        return JSONResponse(serializer.errors, status=400)
+    except ValueError:
+        content = {
+            'successfull': 'false'
+        }
+        return JSONResponse(content)
+    if request.method == 'POST':
+        json_question_text = data['question_text']
+        q = Question(question_text=json_question_text)
+        q.save()
 
-    elif request.method == 'DELETE':
-        questionarys.delete()
-        return HttpResponse(status=204)
+        json_question_text = data['choice_imagePath']
+        for e in json_question_text:
+            Choice(question=q, choice_imagePath=e).save()
+
+        content = {
+            'successfull': 'true'
+        }
+        return JSONResponse(content)
+    return HttpResponse(status=404)
+
+
+@csrf_exempt
+def question_answer(request):
+    try:
+        data = JSONParser().parse(request)
+    except ValueError:
+        content = {
+            'successfull': 'false'
+        }
+        return JSONResponse(content)
+    if request.method == 'POST':
+        user = User.objects.get(pk=data['user'])
+        choice = Choice.objects.get(pk=data['choice'])
+        UserAnswer(user=user, choice=choice).save()
+        content = {
+            'successfull': 'true'
+        }
+        return JSONResponse(content)
+    return HttpResponse(status=404)
+
+
+@csrf_exempt
+def question_get(request):
+    content = "["
+
+    first = 0;
+    for q in Question.objects.all():
+        if first != 0:
+            content += "},"
+        content += "{\"question_text\": \"" + q.question_text + "\","
+        content += "\"choice_imagePath\": ["
+
+        second = 0
+        for c in Choice.objects.all():
+            if c.question == q:
+                if second != 0:
+                    content += ","
+                content += "{\"choice\": \"" + str(c.pk) + "\","
+                content += "\"imagePath\": \"" + c.choice_imagePath + "\"}"
+                second += 1
+
+        content += "]"
+        first += 1
+
+    content += "}]"
+    return JSONResponse(content)
