@@ -9,6 +9,9 @@ urlpatterns = [
     url(r'^question/$', views.question_get),
     url(r'^question/add/$', views.question_add),
     url(r'^question/answer/$', views.question_answer),
+    url(r'^location/$', views.location_get),
+    url(r'^location/add/$', views.location_add),
+    url(r'^location/weather/add/(?P<pk>[0-9]+)/$', views.weather_add),
     url(r'^users/auth/$', views.auth_check),
     url(r'^users/(?P<pk>((\w+\W*)|(\W+\w*)))/$', views.user_detail),
 ]

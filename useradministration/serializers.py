@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from useradministration.models import User, Question, Choice, UserAnswer
+from useradministration.models import User, Question, Choice, UserAnswer, Location
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,3 +24,9 @@ class UserAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAnswer
         fields = ('user', 'choice', 'date')
+
+
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = ('pk', 'city', 'country_short')

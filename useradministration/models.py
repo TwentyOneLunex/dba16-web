@@ -48,6 +48,26 @@ class Choice(models.Model):
 
 
 class UserAnswer(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
-    choice = models.ForeignKey('Choice', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now=True, blank=True)
+
+
+class Location(models.Model):
+    city = models.CharField(max_length=200)
+    country_short = models.CharField(max_length=2)
+
+
+class Room(models.Model):
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    identifier = models.CharField(max_length=200)
+
+
+class Weather(models.Model):
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    temperature = models.DecimalField(max_digits=5, decimal_places=2)
+    pressure = models.SmallIntegerField()
+    humidity = models.SmallIntegerField()
+    windspeed = models.DecimalField(max_digits=5, decimal_places=2)
+    winddegree = models.SmallIntegerField()
     date = models.DateTimeField(auto_now=True, blank=True)

@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from useradministration.models import User, Question, Choice, UserAnswer
-from useradministration.serializers import UserSerializer
+from useradministration.models import User, Question, Choice, UserAnswer, Location, Weather
+from useradministration.serializers import UserSerializer, LocationSerializer
 import json
 
 
@@ -201,3 +201,52 @@ def question_get(request):
 
     content += "}]"
     return JSONResponse(content)
+
+
+@csrf_exempt
+def location_add(request):
+    try:
+        data = JSONParser().parse(request)
+    except ValueError:
+        content = {
+            'successfull': 'false'
+        }
+        return JSONResponse(content)
+    if request.method == 'POST':
+        Location(city=data['city'], country_short=data['country_short']).save()
+        content = {
+            'successfull': 'true'
+        }
+        return JSONResponse(content)
+    return HttpResponse(status=404)
+
+
+@csrf_exempt
+def location_get(request):
+    if request.method == 'GET':
+        location = Location.objects.all()
+        serializer = LocationSerializer(location, many=True)
+        return JSONResponse(serializer.data)
+
+
+@csrf_exempt
+def weather_add(request, pk):
+    try:
+        data = JSONParser().parse(request)
+    except ValueError:
+        content = {
+            'successfull': 'false'
+        }
+        return JSONResponse(content)
+    if request.method == 'POST':
+        Weather(location=Location.objects.get(pk=pk),
+                temperature=data['main']['temp'],
+                pressure=data['main']['pressure'],
+                humidity=data['main']['humidity'],
+                windspeed=data['wind']['speed'],
+                winddegree=data['wind']['deg']).save()
+        content = {
+            'successfull': 'true'
+        }
+        return JSONResponse(content)
+    return HttpResponse(status=404)
