@@ -38,12 +38,22 @@ class User(models.Model):
             super(User, self).save(*args, **kwargs)
 
 
+class Location(models.Model):
+    city = models.CharField(max_length=200)
+    country_short = models.CharField(max_length=2)
+
+
+class Room(models.Model):
+    location = models.ForeignKey(Location, related_name='rooms', on_delete=models.CASCADE)
+    identifier = models.CharField(max_length=200)
+
+
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
 
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name='choices', on_delete=models.CASCADE)
     choice_imagePath = models.CharField(max_length=200)
 
 
@@ -51,16 +61,6 @@ class UserAnswer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True, blank=True)
-
-
-class Location(models.Model):
-    city = models.CharField(max_length=200)
-    country_short = models.CharField(max_length=2)
-
-
-class Room(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    identifier = models.CharField(max_length=200)
 
 
 class Weather(models.Model):
@@ -71,3 +71,17 @@ class Weather(models.Model):
     windspeed = models.DecimalField(max_digits=5, decimal_places=2)
     winddegree = models.SmallIntegerField()
     date = models.DateTimeField(auto_now=True, blank=True)
+
+
+class Sensortype(models.Model):
+    sensor = models.CharField(max_length=32)
+
+
+class Sensordata(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    sensor = models.ForeignKey(Sensortype, on_delete=models.CASCADE)
+    amount = models.PositiveSmallIntegerField() #0-32000
+    starttime = models.DateTimeField()
+    endtime = models.DateTimeField()
+

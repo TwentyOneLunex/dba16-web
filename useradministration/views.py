@@ -4,9 +4,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from useradministration.models import User, Question, Choice, UserAnswer, Location, Weather
-from useradministration.serializers import UserSerializer, LocationSerializer
-import json
+from useradministration.models import *
+from useradministration.serializers import *
+import datetime
 
 
 class JSONResponse(HttpResponse):
@@ -178,29 +178,10 @@ def question_answer(request):
 
 @csrf_exempt
 def question_get(request):
-    content = "["
-
-    first = 0;
-    for q in Question.objects.all():
-        if first != 0:
-            content += "},"
-        content += "{\"question_text\": \"" + q.question_text + "\","
-        content += "\"choice_imagePath\": ["
-
-        second = 0
-        for c in Choice.objects.all():
-            if c.question == q:
-                if second != 0:
-                    content += ","
-                content += "{\"choice\": \"" + str(c.pk) + "\","
-                content += "\"imagePath\": \"" + c.choice_imagePath + "\"}"
-                second += 1
-
-        content += "]"
-        first += 1
-
-    content += "}]"
-    return JSONResponse(content)
+    if request.method == 'GET':
+        question = Question.objects.all()
+        serializer = QuestionChoiceSerializer(question, many=True)
+        return JSONResponse(serializer.data)
 
 
 @csrf_exempt
@@ -230,6 +211,33 @@ def location_get(request):
 
 
 @csrf_exempt
+def room_add(request, pk):
+    try:
+        data = JSONParser().parse(request)
+    except ValueError:
+        content = {
+            'successful': 'false'
+        }
+        return JSONResponse(content)
+    if request.method == 'POST':
+        Room(location=Location.objects.get(pk=pk),
+             identifier=data['identifier']).save()
+        content = {
+            'successful': 'true'
+        }
+        return JSONResponse(content)
+    return HttpResponse(status=404)
+
+
+@csrf_exempt
+def location_room_get(request):
+    if request.method == 'GET':
+        location = Location.objects.all()
+        serializer = LocationRoomSerializer(location, many=True)
+        return JSONResponse(serializer.data)
+
+
+@csrf_exempt
 def weather_add(request, pk):
     try:
         data = JSONParser().parse(request)
@@ -245,6 +253,48 @@ def weather_add(request, pk):
                 humidity=data['main']['humidity'],
                 windspeed=data['wind']['speed'],
                 winddegree=data['wind']['deg']).save()
+        content = {
+            'successfull': 'true'
+        }
+        return JSONResponse(content)
+    return HttpResponse(status=404)
+
+
+@csrf_exempt
+def sensor_add(request):
+    try:
+        data = JSONParser().parse(request)
+    except ValueError:
+        content = {
+            'successfull': 'false'
+        }
+        return JSONResponse(content)
+    if request.method == 'POST':
+        Sensortype(sensor=data['sensor']).save()
+        content = {
+            'successfull': 'true'
+        }
+        return JSONResponse(content)
+    return HttpResponse(status=404)
+
+
+@csrf_exempt
+def sensordata_add(request, user, room):
+    try:
+        data = JSONParser().parse(request)
+    except ValueError:
+        content = {
+            'successfull': 'false'
+        }
+        return JSONResponse(content)
+    if request.method == 'POST':
+        for e in data:
+            start = datetime.datetime.fromtimestamp(int(e['starttime']/1000)).strftime('%Y-%m-%d %H:%M:%S')
+            end = datetime.datetime.fromtimestamp(int(e['endtime']/1000)).strftime('%Y-%m-%d %H:%M:%S')
+            Sensordata(user=User.objects.get(pk=user), room=Room.objects.get(pk=room),
+                       sensor=Sensortype.objects.get(pk=e['sensor']), amount=e['amount'],
+                       starttime=start,
+                       endtime=end).save()
         content = {
             'successfull': 'true'
         }
