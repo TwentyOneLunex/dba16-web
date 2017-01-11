@@ -38,27 +38,50 @@ class User(models.Model):
             super(User, self).save(*args, **kwargs)
 
 
-class Questionary(models.Model):
-    VERY_HAPPY = 1
-    HAPPY = 2
-    AVERAGE = 3
-    UNHAPPY = 4
-    VERY_UNHAPPY = 5
-    FEELING_CHOICES = (
-        (VERY_HAPPY, 'sehr glücklich'), (HAPPY, 'glücklch'), (AVERAGE, 'durchschnittlich'), (UNHAPPY, 'unglücklich'),
-        (VERY_UNHAPPY, 'sehr unglücklich'))
-    feeling = models.SmallIntegerField(choices=FEELING_CHOICES, default=AVERAGE)
-    LECTURE = 1
-    OTHERS = 2
-    PRACTICAL_TRAINING = 3
-    ACTIVITY_CHOICES = ((LECTURE, 'Vorlesung'), (OTHERS, 'Sonstiges'), (PRACTICAL_TRAINING, 'Praktikum'))
-    activity = models.SmallIntegerField(choices=ACTIVITY_CHOICES, default=AVERAGE)
-    VERY_LIGHT_CLOTH = 1
-    LIGHT_CLOTH = 2
-    WARM_CLOTH = 3
-    VERY_WARM_CLOTH = 4
-    CLOTHING_CHOICES = (
-        (VERY_LIGHT_CLOTH, 'sehr leichte Kleidung'), (LIGHT_CLOTH, 'leiche Kleidung'), (WARM_CLOTH, 'warme Kleidung'),
-        (VERY_WARM_CLOTH, 'sehr warme Kleidung'))
-    clothing = models.SmallIntegerField(choices=CLOTHING_CHOICES, default=WARM_CLOTH)
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
+class Location(models.Model):
+    city = models.CharField(max_length=200)
+    country_short = models.CharField(max_length=2)
+
+
+class Room(models.Model):
+    location = models.ForeignKey(Location, related_name='rooms', on_delete=models.CASCADE)
+    identifier = models.CharField(max_length=200)
+
+
+class Question(models.Model):
+    question_text = models.CharField(max_length=200)
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, related_name='choices', on_delete=models.CASCADE)
+    choice_imagePath = models.CharField(max_length=200)
+
+
+class UserAnswer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now=True, blank=True)
+
+
+class Weather(models.Model):
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    temperature = models.DecimalField(max_digits=5, decimal_places=2)
+    pressure = models.SmallIntegerField()
+    humidity = models.SmallIntegerField()
+    windspeed = models.DecimalField(max_digits=5, decimal_places=2)
+    winddegree = models.SmallIntegerField()
+    date = models.DateTimeField(auto_now=True, blank=True)
+
+
+class Sensortype(models.Model):
+    sensor = models.CharField(max_length=32)
+
+
+class Sensordata(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    sensor = models.ForeignKey(Sensortype, on_delete=models.CASCADE)
+    amount = models.PositiveSmallIntegerField() #0-32000
+    starttime = models.DateTimeField()
+    endtime = models.DateTimeField()
+
