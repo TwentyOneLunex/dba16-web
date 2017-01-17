@@ -62,13 +62,13 @@ urlpatterns = [
 More Information on Django REST Framework:
 http://www.django-rest-framework.org/
 
-To avoid Crossiteskripting Conflicts install Django CORS Headers
+To avoid crossite-skripting Conflicts install Django CORS Headers
 ```
 pip install django-cors-headers
 ```
-make some changest in settings.py:
+make some changes in settings.py:
 
-add to intalled apps
+add to installed apps
 ```
 INSTALLED_APPS = (
     ...
@@ -89,6 +89,23 @@ for now we allow all crossitescriptings
 ```
 CORS_ORIGIN_ALLOW_ALL = True
 ```
+
+To use Bootstrap install the following
+```
+pip install django-bootstrap3
+```
+make some changes in settings.py:
+
+add to installed apps
+```
+INSTALLED_APPS = (
+    ...
+    'bootstrap3',
+    ...
+)
+```
+More Information on Django bootstrap3:
+https://django-bootstrap3.readthedocs.io
 
 After that, you can start coding with **Django**.
 
