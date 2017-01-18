@@ -147,10 +147,8 @@ python manage.py runserver 0.0.0.0:8000
 Visit your server in your web browser:
 ```
 http://server_domain_or_IP:8000
+maybe: localhost:8000
 ```
-Maybe : localhost:8000
-
-********
 
 To fix the "bad magic number" error. Run from the highest directory of your project:
 
