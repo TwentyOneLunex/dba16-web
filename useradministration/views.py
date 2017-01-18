@@ -207,3 +207,7 @@ class TestPageView(TemplateView):
 
     template_name = "useradministration/bootstrap.html"
 
+class ChartsPageView(TemplateView):
+
+    #template_name = "../../../static/charts/index.html" #why U not working!? D:
+    template_name = "useradministration/charts.html"

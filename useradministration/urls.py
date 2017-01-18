@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^users/auth/$', views.auth_check),
     url(r'^users/(?P<pk>((\w+\W*)|(\W+\w*)))/$', views.user_detail),
     url(r'^questionarys/(?P<pk>(\d+))/$', views.questionary_detail),
+    url(r'^charts/$', views.ChartsPageView.as_view(), name='index')
 ]
