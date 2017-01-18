@@ -16,6 +16,5 @@ urlpatterns = [
     url(r'^location/room/add/(?P<pk>[0-9]+)/$', views.room_add),
     url(r'^location/room/$', views.location_room_get),
     url(r'^location/weather/add/(?P<pk>[0-9]+)/$', views.weather_add),
-    url(r'^sensor/add/$', views.sensor_add),
-    url(r'^sensor/data/(?P<user>((\w+\W*)|(\W+\w*)))/(?P<room>[0-9]+)/$', views.sensordata_add),
+    url(r'^sensor/data/(?P<user>((\w+\W*)|(\W+\w*)))/$', views.sensordata_add),
 ]

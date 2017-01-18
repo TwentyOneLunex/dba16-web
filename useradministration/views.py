@@ -13,6 +13,7 @@ class JSONResponse(HttpResponse):
     """
     An HttpResponse that renders its content into JSON.
     """
+
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
@@ -111,11 +112,11 @@ def show_user_registration_form(request):
 
         try:
             data = request.POST
-            newUser = User(username = data['username'],
-                           password = data['password'],
-                           email = data['email'],
-                           age = data['age'],
-                           gender = data['gender'])
+            newUser = User(username=data['username'],
+                           password=data['password'],
+                           email=data['email'],
+                           age=data['age'],
+                           gender=data['gender'])
 
             if newUser.password != data['password_rep']:
                 return reload("password was repeated wrongly")
@@ -261,25 +262,7 @@ def weather_add(request, pk):
 
 
 @csrf_exempt
-def sensor_add(request):
-    try:
-        data = JSONParser().parse(request)
-    except ValueError:
-        content = {
-            'successfull': 'false'
-        }
-        return JSONResponse(content)
-    if request.method == 'POST':
-        Sensortype(sensor=data['sensor']).save()
-        content = {
-            'successfull': 'true'
-        }
-        return JSONResponse(content)
-    return HttpResponse(status=404)
-
-
-@csrf_exempt
-def sensordata_add(request, user, room):
+def sensordata_add(request, user):
     try:
         data = JSONParser().parse(request)
     except ValueError:
@@ -289,12 +272,84 @@ def sensordata_add(request, user, room):
         return JSONResponse(content)
     if request.method == 'POST':
         for e in data:
-            start = datetime.datetime.fromtimestamp(int(e['starttime']/1000)).strftime('%Y-%m-%d %H:%M:%S')
-            end = datetime.datetime.fromtimestamp(int(e['endtime']/1000)).strftime('%Y-%m-%d %H:%M:%S')
-            Sensordata(user=User.objects.get(pk=user), room=Room.objects.get(pk=room),
-                       sensor=Sensortype.objects.get(pk=e['sensor']), amount=e['amount'],
-                       starttime=start,
-                       endtime=end).save()
+            starttime = datetime.datetime.fromtimestamp(int(e['START_TIME'] / 1000)).strftime('%Y-%m-%d %H:%M:%S')
+            time_offset = e['TIME_OFFSET'] / 1000 / 60 / 60
+
+            if e['TYPE'] == "StepCount":
+                endtime = datetime.datetime.fromtimestamp(int(e['END_TIME'] / 1000)).strftime('%Y-%m-%d %H:%M:%S')
+                SensorStepCount(user=User.objects.get(pk=user), end_time=endtime, start_time=starttime,
+                                time_offset=time_offset, count=e['COUNT'], distance=e['DISTANCE'], calorie=e['CALORIE'],
+                                speed=e['SPEED'], sample_position_type=e['SAMPLE_POSITION_TYPE']).save()
+            elif e['TYPE'] == "SleepStage":
+                endtime = datetime.datetime.fromtimestamp(int(e['END_TIME'] / 1000)).strftime('%Y-%m-%d %H:%M:%S')
+                SensorSleepStage(user=User.objects.get(pk=user), start_time=starttime, end_time=endtime,
+                                 time_offset=time_offset, sleep_id=e['SLEEP_ID'], stage=e['STAGE']).save()
+            elif e['TYPE'] == "Sleep":
+                endtime = datetime.datetime.fromtimestamp(int(e['END_TIME'] / 1000)).strftime('%Y-%m-%d %H:%M:%S')
+                SensorSleep(user=User.objects.get(pk=user), start_time=starttime, end_time=endtime,
+                            time_offset=time_offset).save()
+            elif e['TYPE'] == "Exercise":
+                endtime = datetime.datetime.fromtimestamp(int(e['END_TIME'] / 1000)).strftime('%Y-%m-%d %H:%M:%S')
+                SensorExercise(user=User.objects.get(pk=user), start_time=starttime, end_time=endtime,
+                               time_offset=time_offset, calorie=e['CALORIE'], duration=e['DURATION'],
+                               exercise_type=e['EXERCISE_TYPE'], exercise_custom_type=e['EXERCISE_CUSTOM_TYPE'],
+                               distance=e['DISTANCE'], altitude_gain=e['ALTITUDE_GAIN'],
+                               altitude_loss=e['ALTITUDE_LOSS'], count=e['COUNT'],
+                               count_type=e['COUNT_TYPE'], max_speed=e['MAX_SPEED'],
+                               mean_speed=e['MEAN_SPEED'], max_caloricburn_rate=e['MAX_CALORICBURN_RATE'],
+                               mean_caloricburn_rate=e['MEAN_CALORICBURN_RATE'], max_cadence=e['MAX_CADENCE'],
+                               mean_cadence=e['MEAN_CADENCE'], max_heart_rate=e['MAX_HEART_RATE'],
+                               mean_heart_rate=e['MEAN_HEART_RATE'], min_heart_rate=e['MIN_HEART_RATE'],
+                               max_altitude=e['MAX_ALTITUDE'], mean_altitude=e['MEAN_ALTITUDE'],
+                               incline_distance=e['INCLINE_DISTANCE'], decline_distance=e['DECLINE_DISTANCE'],
+                               max_power=e['MAX_POWER'], mean_power=e['MEAN_POWER'], mean_rpm=e['MEAN_RPM'],
+                               location_data=e['LOCATION_DATA']).save()
+            elif e['TYPE'] == "WaterIntake":
+                SensorWaterIntake(user=User.objects.get(pk=user), start_time=starttime, time_offset=time_offset,
+                                  amount=e['AMOUNT'], unit_amount=
+                                  e['UNIT_AMOUNT']).save()
+            elif e['TYPE'] == "FoodIntake":
+                SensorFoodIntake(user=User.objects.get(pk=user), start_time=starttime, time_offset=time_offset,
+                                 calorie=e['CALORIE'], food_info_id=e['FOOD_INFO_ID'], amount=e['AMOUNT'],
+                                 unit=e['UNIT'], name=e['NAME'], meal_type=e['MEAL_TYPE']).save()
+            elif e['TYPE'] == "CaffeineIntake":
+                SensorCaffeineIntake(user=User.objects.get(pk=user), start_time=starttime,
+                                     time_offset=time_offset, amount=e['AMOUNT'], unit_amount=e['UNIT_AMOUNT']).save()
+            elif e['TYPE'] == "HeartRate":
+                endtime = datetime.datetime.fromtimestamp(int(e['END_TIME'] / 1000)).strftime('%Y-%m-%d %H:%M:%S')
+                SensorHeartRate(user=User.objects.get(pk=user), start_time=starttime, end_time=endtime,
+                                time_offset=time_offset, heart_rate=e['HEART_RATE'],
+                                heart_beat_count=e['HEART_BEAT_COUNT']).save()
+            elif e['TYPE'] == "BodyTemperature":
+                SensorBodyTemperature(user=User.objects.get(pk=user), start_time=starttime,
+                                      time_offset=time_offset, temperature=e['TEMPERATURE']).save()
+            elif e['TYPE'] == "BloodPressure":
+                SensorBloodPressure(user=User.objects.get(pk=user), start_time=starttime,
+                                    time_offset=time_offset, systolic=e['SYSTOLIC'], diastolic=e['DIASTOLIC'],
+                                    mean=e['MEAN'], pulse=e['PULSE']).save()
+            elif e['TYPE'] == "BloodGlucose":
+                mealtime = datetime.datetime.fromtimestamp(int(e['MEAL_TIME'] / 1000)).strftime('%Y-%m-%d %H:%M:%S')
+                SensorBloodGlucose(user=User.objects.get(pk=user), start_time=starttime, time_offset=time_offset,
+                                   glucose=e['GLUCOSE'], meal_time=mealtime, meal_type=e['MEAL_TYPE'],
+                                   measurement_type=e['MEASUREMENT_TYPE'],
+                                   sample_source_type=e['SAMPLE_SOURCE_TYPE']).save()
+            elif e['TYPE'] == "OxygenSaturation":
+                endtime = datetime.datetime.fromtimestamp(int(e['END_TIME'] / 1000)).strftime('%Y-%m-%d %H:%M:%S')
+
+                SensorOxygenSaturation(user=User.objects.get(pk=user), start_time=starttime, end_time=endtime,
+                                       time_offset=time_offset, spo2=e['SPO2'], heart_rate=e['HEART_RATE']).save()
+            elif e['TYPE'] == "HbA1c":
+                SensorHbA1c(user=User.objects.get(pk=user), start_time=starttime, time_offset=time_offset,
+                            hba1c=e['HBA1C']).save()
+            elif e['TYPE'] == "AmbientTemperature":
+                SensorAmbientTemperature(user=User.objects.get(pk=user), start_time=starttime,
+                                         time_offset=time_offset, temperature=e['TEMPERATURE'], humidity=e['HUMIDITY'],
+                                         latitude=e['LATITUDE'], longitude=e['LONGITUDE'], altitude=e['ALTITUDE'],
+                                         accuracy=e['ACCURACY']).save()
+            elif e['TYPE'] == "UvExposure":
+                SensorUvExposure(user=User.objects.get(pk=user), start_time=starttime, time_offset=time_offset,
+                                 uv_index=e['UV_INDEX'], latitude=e['LATITUDE'], longitude=e['LONGITUDE'],
+                                 altitude=e['ALTITUDE'], accuracy=e['ACCURACY']).save()
         content = {
             'successfull': 'true'
         }
