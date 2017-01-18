@@ -150,7 +150,9 @@ http://server_domain_or_IP:8000
 maybe: localhost:8000
 ```
 
-To fix the "bad magic number" error. Run from the highest directory of your project:
+**How to fix the "bad magic number" error**
+
+Run from the highest directory of your project:
 
 ```
 find . -name '*.pyc' -delete
