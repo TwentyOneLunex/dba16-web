@@ -1,42 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:width="http://www.w3.org/1999/xhtml">
 
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>Diagramme</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-
 <body>
 
-<div id="Chart1" style="width:100%; height:400px;"></div>
-<br /><br /><br /><br /><br />
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="../home">Unser Logo</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
 
-<div id="Chart2" style="width:100%; height:400px;"></div>
-<br /><br /><br /><br /><br />
+                <li><a href="../home">Home</a></li>
 
-<div id="Chart3" style="width:100%; height:400px;"></div>
-<br /><br /><br /><br /><br />
+                <li class="active dropdown">
+                    <a href="../charts" class="dropdown-toggle" data-toggle="dropdown"
+                       role="button" aria-haspopup="true" aria-expanded="false">Diagramme <span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../charts#firstChartsNav">Einzelne Kuchendiagramme</a></li>
+                        <li><a href="../charts#secondChartsNav">Kombinierte Balkendiagramme</a></li>
+                    </ul>
+                </li>
 
-<div id="Chart4" style="width: 600px; height: 400px; margin: 0 auto"></div>
-<br /><br /><br /><br /><br />
+                <li><a href="../dataanalyses">Datenanalyse</a></li>
 
-<div id="Chart5" style="width:100%; height:600px;"></div>
+                <li><a href="#contact">Seite 4</a></li>
+
+                <li><a href="#contact">Seite 5</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Nav header</li>
+                        <li><a href="#">Separated link</a></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="firstChartsNav"></div>
+<br><br><br>
+
+<div id="chart_wohlbefinden" style="width:95%; auto"></div>
+<div id="chart_aktivitaet" style="width:95%; auto"></div>
+<div id="chart_Kleidung" style="width:95%; auto"></div>
+
+<div id="secondChartsNav"></div>
+<br><br><br>
+
+<div id="chart_wohlbefindenUndKleidung" style="width:95%; auto"></div>
+<div id="chart_wohlbefindenUndAktivitaet" style="width:95%; auto"></div>
+<div id="chart_aktivitaetUndKleidung" style="width:95%%; auto"></div>
 
 <script type='text/javascript'>
-
     $(document).ready(function() {
 
     var options = {
         chart: {
-            renderTo: 'Chart1',
+            renderTo: 'chart_wohlbefinden',
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
             type: 'pie'
         },
         title: {
-            text: 'Wohlbefinden der Benutzer'
+            text: 'Wohlbefinden'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -96,23 +165,21 @@
         var chart = new Highcharts.Chart(options);
     });
 });
-
 </script>
 
 <script type='text/javascript'>
-
     $(document).ready(function() {
 
     var options = {
         chart: {
-            renderTo: 'Chart2',
+            renderTo: 'chart_aktivitaet',
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
             type: 'pie'
         },
         title: {
-            text: 'Aktivitaet der Benutzer'
+            text: 'Aktivitaet'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -163,23 +230,21 @@
 
         var chart = new Highcharts.Chart(options);
     });
-});
-
-</script>
+});</script>
 
 <script type='text/javascript'>
-$(document).ready(function() {
+    $(document).ready(function() {
 
     var options = {
         chart: {
-            renderTo: 'Chart3',
+            renderTo: 'chart_Kleidung',
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
             type: 'pie'
         },
         title: {
-            text: 'Kleidung der Benutzer'
+            text: 'Kleidung'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -238,199 +303,26 @@ $(document).ready(function() {
 </script>
 
 <script type='text/javascript'>
-$(function () {
-
-    var colors = Highcharts.getOptions().colors,
-        categories = ['Sehr gut', 'Gut', 'Durchschnittlich', 'Schwach', 'Sehr schwach'],
-        data = [{
-            y: 56.33,
-            color: colors[0],
-            drilldown: {
-                name: 'Bekleidung',
-                categories: ['Sehr leicht', 'Leicht', 'Warm', 'Sehr leicht'],
-                data: [1.06, 0.5, 17.2, 8.11, 5.33, 24.13],
-                color: colors[0]
-            }
-        }, {
-            y: 10.38,
-            color: colors[1],
-            drilldown: {
-                name: 'Bekleidung',
-                categories: ['Sehr leicht', 'Leicht', 'Warm', 'Sehr leicht'],
-                data: [0.33, 0.15, 0.22, 1.27, 2.76, 2.32, 2.31, 1.02],
-                color: colors[1]
-            }
-        }, {
-            y: 24.03,
-            color: colors[2],
-            drilldown: {
-                name: 'Bekleidung',
-                categories: ['Sehr leicht', 'Leicht', 'Warm', 'Sehr leicht'],
-                data: [0.14, 1.24, 0.55, 0.19, 0.14, 0.85, 2.53, 0.38, 0.6, 2.96, 5, 4.32, 3.68, 1.45],
-                color: colors[2]
-            }
-        }, {
-            y: 4.77,
-            color: colors[3],
-            drilldown: {
-                name: 'Bekleidung',
-                categories: ['Sehr leicht', 'Leicht', 'Warm', 'Sehr leicht'],
-                data: [0.3, 0.42, 0.29, 0.17, 0.26, 0.77, 2.56],
-                color: colors[3]
-            }
-        }, {
-            y: 0.91,
-            color: colors[4],
-            drilldown: {
-                name: 'Bekleidung',
-                categories: ['Sehr leicht', 'Leicht', 'Warm', 'Sehr leicht'],
-                data: [0.34, 0.17, 0.24, 0.16],
-                color: colors[4]
-            }
-        }, {
-            y: 0.2,
-            color: colors[5],
-            drilldown: {
-                name: 'Proprietary or Undetectable',
-                categories: [],
-                data: [],
-                color: colors[5]
-            }
-        }],
-        browserData = [],
-        versionsData = [],
-        i,
-        j,
-        dataLen = data.length,
-        drillDataLen,
-        brightness;
-
-
-    // Build the data arrays
-    for (i = 0; i < dataLen; i += 1) {
-
-        // add browser data
-        browserData.push({
-            name: categories[i],
-            y: data[i].y,
-            color: data[i].color
-        });
-
-        // add version data
-        drillDataLen = data[i].drilldown.data.length;
-        for (j = 0; j < drillDataLen; j += 1) {
-            brightness = 0.2 - (j / drillDataLen) / 5;
-            versionsData.push({
-                name: data[i].drilldown.categories[j],
-                y: data[i].drilldown.data[j],
-                color: Highcharts.Color(data[i].color).brighten(brightness).get()
-            });
-        }
-    }
-
-    // Create the chart
-    var options = {
-        chart: {
-            renderTo: 'Chart4',
-            type: 'pie'
-        },
-        title: {
-            text: 'Browser market share, January, 2015 to May, 2015'
-        },
-        subtitle: {
-            text: 'Source: <a href="http://netmarketshare.com/">netmarketshare.com</a>'
-        },
-        yAxis: {
-            title: {
-                text: 'Total percent market share'
-            }
-        },
-        plotOptions: {
-            pie: {
-                shadow: false,
-                center: ['50%', '50%']
-            }
-        },
-        tooltip: {
-            valueSuffix: '%'
-        },
-        series: [{
-            name: 'Browsers',
-            data: browserData,
-            size: '60%',
-            dataLabels: {
-                formatter: function () {
-                    return this.y > 5 ? this.point.name : null;
-                },
-                color: '#ffffff',
-                distance: -30
-            }
-        }, {
-            name: 'Versions',
-            data: versionsData,
-            size: '80%',
-            innerSize: '60%',
-            dataLabels: {
-                formatter: function () {
-                    // display only if larger than 1
-                    return this.y > 1 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null;
-                }
-            }
-        }]
-    };
-
-    $.getJSON('http://127.0.0.1:8000/questionarys/', function(data) {
-        console.log(data)
-        var opt1 = 0, opt2 = 0, opt3 = 0, opt4 = 0;
-/*
-        for (i = 0; i < data.length; i++) {
-
-            switch(data[i].clothing) {
-                case 1: opt1++; break;
-                case 2: opt2++; break;
-                case 3: opt3++; break;
-                case 4: opt4++; break;
-                default: break;
-            }
-        }
-
-        options.series[0].data[0].y = opt1;
-        options.series[0].data[1].y = opt2;
-        options.series[0].data[2].y = opt3;
-        options.series[0].data[3].y = opt4;
-*/
-        var chart = new Highcharts.Chart(options);
-    });
-});
-</script>
-
-<script type='text/javascript'>
-
     $(document).ready(function() {
 
     var options = {
         chart: {
-            renderTo: 'Chart5',
+            renderTo: 'chart_wohlbefindenUndKleidung',
             type: 'bar'
         },
         title: {
             text: 'Wohlbefinden und Kleidung'
         },
-/*
-        subtitle: {
-            text: 'Subtitle'
-        },
-*/
         xAxis: {
             categories: ['Sehr gut', 'Gut', 'Durchschnittlich', 'Schlecht', 'Sehr schlecht'],
             title: {
-                text: null
+                text: 'Wohlbefinden'
             }
         },
         yAxis: {
             min: 0,
             title: {
-                text: 'Wohlbefinden',
+                text: 'Kleidung',
                 align: 'high'
             },
             labels: {
@@ -513,14 +405,6 @@ $(function () {
                             case 5: opt45++; break;
                             default: break;
                         } break;
-                case 5: switch(data[i].feeling) {
-                            case 1: opt51++; break;
-                            case 2: opt52++; break;
-                            case 3: opt53++; break;
-                            case 4: opt54++; break;
-                            case 5: opt55++; break;
-                            default: break;
-                        } break;
                 default: break;
             }
         }
@@ -540,5 +424,219 @@ $(function () {
 });
 </script>
 
+<script type='text/javascript'>
+    $(document).ready(function() {
+
+    var options = {
+        chart: {
+            renderTo: 'chart_wohlbefindenUndAktivitaet',
+            type: 'bar'
+        },
+        title: {
+            text: 'Wohlbefinden und Aktivität'
+        },
+        xAxis: {
+            categories: ['Sehr gut', 'Gut', 'Durchschnittlich', 'Schlecht', 'Sehr schlecht'],
+            title: {
+                text: 'Wohlbefinden'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Aktivität',
+                align: 'high'
+            },
+            labels: {
+                overflow: 'justify'
+            }
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -40,
+            y: 80,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+            shadow: true
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: 'Vorlesung',
+        }, {
+            name: 'Anderes',
+        }, {
+           name: 'Praktikum',
+        }]
+    };
+
+    $.getJSON('http://127.0.0.1:8000/questionarys/', function(data) {
+
+        console.log(data)
+
+        var opt11 = 0, opt12 = 0, opt13 = 0, opt14 = 0, opt15 = 0;
+        var opt21 = 0, opt22 = 0, opt23 = 0, opt24 = 0, opt25 = 0;
+        var opt31 = 0, opt32 = 0, opt33 = 0, opt34 = 0, opt35 = 0;
+
+        for (i = 0; i < data.length; i++) {
+
+            switch(data[i].activity) {
+                case 1: switch(data[i].feeling) {
+                            case 1: opt11++; break;
+                            case 2: opt12++; break;
+                            case 3: opt13++; break;
+                            case 4: opt14++; break;
+                            case 5: opt15++; break;
+                            default: break;
+                        } break;
+                case 2: switch(data[i].feeling) {
+                            case 1: opt21++; break;
+                            case 2: opt22++; break;
+                            case 3: opt23++; break;
+                            case 4: opt24++; break;
+                            case 5: opt25++; break;
+                            default: break;
+                        } break;
+                case 3: switch(data[i].feeling) {
+                            case 1: opt31++; break;
+                            case 2: opt32++; break;
+                            case 3: opt33++; break;
+                            case 4: opt34++; break;
+                            case 5: opt35++; break;
+                            default: break;
+                        } break;
+                default: break;
+            }
+        }
+
+        var rows0 = [opt11, opt12, opt13, opt14, opt15];
+        var rows1 = [opt21, opt22, opt23, opt24, opt25];
+        var rows2 = [opt31, opt32, opt33, opt34, opt35];
+
+        options.series[0].data = rows0;
+        options.series[1].data = rows1;
+        options.series[2].data = rows2;
+
+        var chart = new Highcharts.Chart(options);
+    });
+});
+</script>
+
+<script type='text/javascript'>
+    $(document).ready(function() {
+
+    var options = {
+        chart: {
+            renderTo: 'chart_aktivitaetUndKleidung',
+            type: 'bar'
+        },
+        title: {
+            text: 'Kleidung und Aktivität'
+        },
+        xAxis: {
+            categories: ['Sehr leicht', 'Leicht', 'Warm', 'Sehr Warm'],
+            title: {
+                text: 'Kleidung'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Aktivität',
+                align: 'high'
+            },
+            labels: {
+                overflow: 'justify'
+            }
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -40,
+            y: 80,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+            shadow: true
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: 'Vorlesung',
+        }, {
+            name: 'Anderes',
+        }, {
+           name: 'Praktikum',
+        }]
+    };
+
+    $.getJSON('http://127.0.0.1:8000/questionarys/', function(data) {
+
+        console.log(data)
+
+        var opt11 = 0, opt12 = 0, opt13 = 0, opt14 = 0;
+        var opt21 = 0, opt22 = 0, opt23 = 0, opt24 = 0;
+        var opt31 = 0, opt32 = 0, opt33 = 0, opt34 = 0;
+
+        for (i = 0; i < data.length; i++) {
+
+            switch(data[i].activity) {
+                case 1: switch(data[i].clothing) {
+                            case 1: opt11++; break;
+                            case 2: opt12++; break;
+                            case 3: opt13++; break;
+                            case 4: opt14++; break;
+                            default: break;
+                        } break;
+                case 2: switch(data[i].clothing) {
+                            case 1: opt21++; break;
+                            case 2: opt22++; break;
+                            case 3: opt23++; break;
+                            case 4: opt24++; break;
+                            default: break;
+                        } break;
+                case 3: switch(data[i].clothing) {
+                            case 1: opt31++; break;
+                            case 2: opt32++; break;
+                            case 3: opt33++; break;
+                            case 4: opt34++; break;
+                            default: break;
+                        } break;
+                default: break;
+            }
+        }
+
+        var rows0 = [opt11, opt12, opt13, opt14];
+        var rows1 = [opt21, opt22, opt23, opt24];
+        var rows2 = [opt31, opt32, opt33, opt34];
+
+        options.series[0].data = rows0;
+        options.series[1].data = rows1;
+        options.series[2].data = rows2;
+
+        var chart = new Highcharts.Chart(options);
+    });
+});
+</script>
 </body>
 </html>

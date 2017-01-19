@@ -209,5 +209,16 @@ class TestPageView(TemplateView):
 
 class ChartsPageView(TemplateView):
 
-    #template_name = "../../../static/charts/index.html" #why U not working!? D:
     template_name = "useradministration/charts.html"
+
+class IndexPageView(TemplateView):
+
+    template_name = "useradministration/index.html"
+
+class HomePageView(TemplateView):
+
+    template_name = "useradministration/home.html"
+
+class DataanalysesPageView(TemplateView):
+
+    template_name = "useradministration/dataanalyses.html"
