@@ -30,13 +30,12 @@ SECRET_KEY = 'xhr1*^j&qe#ee(98%v)til0fwir+jbzrk4d6tt10kx8p@pt_u8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['rs03-db-inf-min.ad.fh-bielefeld.de','127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
     'useradministration.apps.UseradministrationConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -89,9 +88,9 @@ WSGI_APPLICATION = 'wohlfuehlprojekt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'testdb',
-        'USER': 'testadmin',
-        'PASSWORD': 'qwertz',
+        'NAME': 'djangodb',
+        'USER': 'djangouser',
+        'PASSWORD': 'djpw16',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

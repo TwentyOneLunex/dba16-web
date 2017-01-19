@@ -1,0 +1,8 @@
+[Unit]
+Description=exec push weather data
+
+[Service]
+ExecStart=/home/toni/PycharmProjects/dba16-web/pushWeather.sh
+
+[Install]
+WantedBy=timers.target
