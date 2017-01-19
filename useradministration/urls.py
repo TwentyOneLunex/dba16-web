@@ -8,9 +8,16 @@ urlpatterns = [
     url(r'^users/myprofile/$', views.show_profile, name='myprofile'),
     url(r'^users/reg_user/$', views.show_user_registration_form, name='reg_user'),
     url(r'^users/reg_ok/$', views.registration_successful, name='reg_ok'),
-    url(r'^questionarys/$', views.questionary_list),
     url(r'^users/auth/$', views.auth_check),
     url(r'^users/(?P<pk>((\w+\W*)|(\W+\w*)))/$', views.user_detail),
-    url(r'^questionarys/(?P<pk>(\d+))/$', views.questionary_detail),
+    url(r'^question/$', views.question_get),
+    url(r'^question/add/$', views.question_add),
+    url(r'^question/answer/$', views.question_answer),
+    url(r'^location/$', views.location_get),
+    url(r'^location/add/$', views.location_add),
+    url(r'^location/room/add/(?P<pk>[0-9]+)/$', views.room_add),
+    url(r'^location/room/$', views.location_room_get),
+    url(r'^location/weather/add/(?P<pk>[0-9]+)/$', views.weather_add),
+    url(r'^sensor/data/(?P<user>((\w+\W*)|(\W+\w*)))/$', views.sensordata_add),
     url(r'^charts/$', views.ChartsPageView.as_view(), name='index')
 ]
