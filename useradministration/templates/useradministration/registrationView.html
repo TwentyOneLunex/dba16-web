@@ -1,30 +1,70 @@
-<h1>USER REGISTRATION</h1>
+{# Load the tag library #}
+{% load bootstrap3 %}
 
-{% if error_message %}<p><strong><font color="red">{{ error_message }}</font></strong></p>{% endif %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
-<form action="{% url 'useradministration:reg_user' %}" method="post">
-  {% csrf_token %}
-  username:<br>
-  <input type="text" name="username" {% if username %}value="{{ username }}"{% endif %}><br>
-  <br>
-  password:<br>
-  <input type="text" name="password" {% if password %}value="{{ password }}"{% endif %}><br>
-  <br>
-  repeat password:<br>
-  <input type="text" name="password_rep" {% if password %}value="{{ password_rep }}"{% endif %}><br>
-  <br>
-  email address:<br>
-  <input type="text" name="email" {% if email %}value="{{ email }}"{% endif %}><br>
-  <br>  
-  age:<br>
-  <input type="text" name="age" {% if age %}value="{{ age }}"{% endif %}><br>
-  <br>
-  gender:<br>
-  <select name="gender" size="2">
-    <option value="f" selected="selected">female</option>
-    <option value="m">male</option>
-  </select>
-  <br>
-  <br>
-  <input type="submit" value="OK"/>
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+<div class="text-center">
+    <h1>USER REGISTRATION</h1>
+</div>
+<br>
+<form class="form-horizontal" action="{% url 'useradministration:reg_user' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="username">username:</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" {% if username %} value="{{ username }}" {% endif %}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="password">Password:</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="password" id="password" placeholder="Enter password" {% if password %} value="{{ password }}" {% endif %}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="password_rep">repeat password:</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="password_rep" id="password_rep" placeholder="Enter password"
+                   {% if password %} value="{{ password_rep }}" {% endif %}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Email:</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="email" id="email" placeholder="Enter email" {% if email %} value="{{ email }}" {% endif %}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="age">Age:</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="age" id="age" placeholder="Enter age" {% if email %} value="{{ age }}" {% endif %}>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="gender">gender:</label>
+        <div class="col-sm-9">
+            <select id="gender" name="gender" size="2">
+                <option value="f" selected="selected">female</option>
+                <option value="m">male</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+    </div>
 </form>
+
+
+{% if error_message %}
+<div class="alert alert-danger fade in" align="center">
+    <strong>An error occured!</strong><br>message: {{ error_message }}
+</div>
+{% endif %}

@@ -15,7 +15,11 @@ class User(models.Model):
         self.username = self.username.strip()
         self.password = self.password.strip()
         self.email = self.email.strip()
-        self.age = self.age.strip()
+        try:
+            self.age = self.age.strip()
+        except:
+            pass
+        
 
         if self.username == '':
             raise ValueError("username must not be blank!")

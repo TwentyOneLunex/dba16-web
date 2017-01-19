@@ -4,6 +4,8 @@ from . import views
 app_name = 'useradministration'
 urlpatterns = [
     url(r'^users/$', views.user_list),
+    url(r'^users/test/$', views.TestPageView.as_view(), name='test'),
+    url(r'^users/myprofile/$', views.show_profile, name='myprofile'),
     url(r'^users/reg_user/$', views.show_user_registration_form, name='reg_user'),
     url(r'^users/reg_ok/$', views.registration_successful, name='reg_ok'),
     url(r'^users/auth/$', views.auth_check),
@@ -17,4 +19,5 @@ urlpatterns = [
     url(r'^location/room/$', views.location_room_get),
     url(r'^location/weather/add/(?P<pk>[0-9]+)/$', views.weather_add),
     url(r'^sensor/data/(?P<user>((\w+\W*)|(\W+\w*)))/$', views.sensordata_add),
+    url(r'^charts/$', views.ChartsPageView.as_view(), name='index')
 ]

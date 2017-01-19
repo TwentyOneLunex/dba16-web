@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.base import TemplateView
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from useradministration.models import *
@@ -91,6 +92,35 @@ def auth_check(request):
         return JSONResponse(content)
     return HttpResponse(status=404)
 
+def show_profile(request):
+    user = 0;
+    try:
+        user = User.objects.get(username='klaus')
+    except User.DoesNotExist:
+        return HttpResponse(status=404)
+
+    data = {
+        'username': user.username,
+        'email': user.email,
+        'age': user.age,
+        'gender': 'male' if user.gender == 'm' else 'female',
+    }
+
+    if request.method == 'POST':
+        if request.POST['newpassword']:
+            if request.POST['newpassword'] != request.POST['reppassword']:
+                data['error_message'] = "wrong password repitition"
+            else:
+                user.password = request.POST['newpassword']
+                try:
+                    user.save_forRegView()
+                    data['info_message'] = "password successfully changed :)"
+                except ValueError as e:
+                    data['error_message'] = e
+                except:
+                    data['error_message'] = "something went terribly wrong"
+
+    return render(request, 'useradministration/myprofileView.html', data)
 
 def registration_successful(request):
     return HttpResponse("<font color=\"green\">User was successfully registered :)</font>")
@@ -119,7 +149,7 @@ def show_user_registration_form(request):
                            gender=data['gender'])
 
             if newUser.password != data['password_rep']:
-                return reload("password was repeated wrongly")
+                return reload("password repetition incorrect")
             else:
                 try:
                     newUser.save_forRegView()
@@ -260,7 +290,7 @@ def weather_add(request, pk):
         return JSONResponse(content)
     return HttpResponse(status=404)
 
-
+  
 @csrf_exempt
 def sensordata_add(request, user):
     try:
@@ -355,3 +385,12 @@ def sensordata_add(request, user):
         }
         return JSONResponse(content)
     return HttpResponse(status=404)
+
+  
+class TestPageView(TemplateView):
+    template_name = "useradministration/bootstrap.html"
+
+    
+class ChartsPageView(TemplateView):
+    #template_name = "../../../static/charts/index.html" #why U not working!? D:
+    template_name = "useradministration/charts.html"
