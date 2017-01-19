@@ -115,12 +115,12 @@ In our case: dba16-web/wohlfuehlprojekt/settings.py.
 ```
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'project',
-        'USER': 'myUser',
-        'PASSWORD': 'myPassword',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'testdb',
+        'USER': 'testadmin',
+        'PASSWORD': 'qwertz',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 ```
