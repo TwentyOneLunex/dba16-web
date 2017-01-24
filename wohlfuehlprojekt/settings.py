@@ -85,9 +85,9 @@ WSGI_APPLICATION = 'wohlfuehlprojekt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangodb',
-        'USER': 'djangouser',
-        'PASSWORD': 'djpw16',
+        'NAME': 'testdb',
+        'USER': 'testadmin',
+        'PASSWORD': 'qwertz',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
