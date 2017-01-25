@@ -3,6 +3,8 @@ from . import views
 
 app_name = 'useradministration'
 urlpatterns = [
+    url(r'^users/login_user/$', views.user_login, name='user_login'),
+    url(r'^users/eingeloggtView/$', views.user_logout, name='eingeloggt'),
     url(r'^users/$', views.user_list),
     url(r'^users/test/$', views.TestPageView.as_view(), name='test'),
     url(r'^users/myprofile/$', views.show_profile, name='myprofile'),
@@ -10,7 +12,7 @@ urlpatterns = [
     url(r'^users/reg_ok/$', views.registration_successful, name='reg_ok'),
     url(r'^users/auth/$', views.auth_check),
     url(r'^users/(?P<pk>((\w+\W*)|(\W+\w*)))/$', views.user_detail),
-    url(r'^questionarys/(?P<pk>(\d+))/$', views.questionary_detail),
+    #url(r'^questionarys/(?P<pk>(\d+))/$', views.questionary_detail),
     url(r'^question/$', views.question_get),
     url(r'^question/add/$', views.question_add),
     url(r'^question/answer/$', views.question_answer),

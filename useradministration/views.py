@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import check_password, make_password
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -92,10 +93,57 @@ def auth_check(request):
         return JSONResponse(content)
     return HttpResponse(status=404)
 
-def show_profile(request):
-    user = 0;
+
+#Die Funktion user_login prueft als erstes, ob es sich um einen reinen Aufruf
+#der Webseite des Datenbankenanwendungen-Projektes handelt, oder ob auch Daten
+#uebergeben werden. Ist Ersteres der Fall, wird zur Loginseite verwiesen, bzw.
+#sofort zum Inhalt, sofern bereits eine Session-ID vorhanden ist.
+#Bei Letzterem wird geprueft, ob der in der Loginseite uebergebene Nutzername
+#in der Datenbank vorhanden ist und das Passwort mit dem gespeicherten Passwort
+#uebereinstimmt.
+#Ist dies der Fall, wird eine Session-ID gesetzt und zum Inhalt verwiesen.
+def user_login(request):
+    def reload(errorMsg):
+        return render(request, 'useradministration/loginView.html', {
+            'error_message': errorMsg,
+            'username': request.POST['username'],
+            'password': request.POST['password'],
+        })
+    if request.method == 'GET':
+        if request.session.has_key('username'):
+            return show_profile(request, request.session['username'])
+        else:
+            return render(request, 'useradministration/loginView.html')
+    else:
+        try:
+            user_request_name = request.POST['username']
+            user_request_password = request.POST['password']
+            user_datensatz = User.objects.get(username=user_request_name)
+        except:
+            return reload('Username oder Passwort falsch.')
+        if check_password(user_request_password, user_datensatz.password):
+            request.session['username'] = user_datensatz.username
+            return show_profile(request, user_datensatz.username)
+        else:
+            return reload('Username oder Passwort falsch.')
+
+
+#Leitet den Nutzer zum Login weiter und löscht die aktuelle Session-ID.
+def user_logout(request):
+    def reload(errorMsg):
+        return render(request, 'useradministration/loginView.html')
     try:
-        user = User.objects.get(username='klaus')
+        if request.session.has_key('username'):
+            del request.session['username']
+            return reload('Sie wurden erfolgreich ausgeloggt.')
+    except:
+        pass
+
+
+def show_profile(request, username):
+
+    try:
+        user = User.objects.get(username=username)
     except User.DoesNotExist:
         return HttpResponse(status=404)
 
@@ -106,19 +154,22 @@ def show_profile(request):
         'gender': 'male' if user.gender == 'm' else 'female',
     }
 
-    if request.method == 'POST':
-        if request.POST['newpassword']:
-            if request.POST['newpassword'] != request.POST['reppassword']:
-                data['error_message'] = "wrong password repitition"
-            else:
-                user.password = request.POST['newpassword']
-                try:
-                    user.save_forRegView()
-                    data['info_message'] = "password successfully changed :)"
-                except ValueError as e:
-                    data['error_message'] = e
-                except:
-                    data['error_message'] = "something went terribly wrong"
+    #if request.method == 'POST':
+        #if request.POST['newpassword']:
+     #       if request.POST['newpassword'] != request.POST['reppassword']:
+       #         data['error_message'] = "wrong password repitition"
+      #      else:
+        #        user.password = request.POST['newpassword']
+         #       try:
+          #          user.save_forRegView()
+           #         data['info_message'] = "password successfully changed :)"
+           #     except ValueError as e:
+           #         data['error_message'] = e
+           #     except:
+           #         data['error_message'] = "something went terribly wrong"
+
+    if request.method == 'POST' and 'logout' in request.POST:
+        return user_logout(request)
 
     return render(request, 'useradministration/myprofileView.html', data)
 
@@ -152,6 +203,7 @@ def show_user_registration_form(request):
                 return reload("password repetition incorrect")
             else:
                 try:
+                    newUser.password = make_password(newUser.password)
                     newUser.save_forRegView()
                     return HttpResponseRedirect(reverse('useradministration:reg_ok'))
                 except ValueError as e:
