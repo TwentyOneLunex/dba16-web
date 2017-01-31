@@ -1,0 +1,9 @@
+[Unit]
+Description=push weather data to django
+
+[Timer]
+OnBootSec=0min
+OnUnitActiveSec=1min
+
+[Install]
+WantedBy=timers.target

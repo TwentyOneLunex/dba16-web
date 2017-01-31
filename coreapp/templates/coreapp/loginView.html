@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+<h1>Login-Bereich</h1>
+{% if error_message %}<p><strong><font color="red">{{ error_message }}</font></strong></p>{% endif %}
+<form action="{% url 'coreapp:user_login' %}" method="post" autocomplete="off">
+  {% csrf_token %}
+  <label for="username">Username:</label>
+  <input type="text" name="username" {% if username %}value="{{ username }}"{% endif %} required><br>
+  <br>
+  <label for="password">Password:</label>
+  <input type="password" name="password" {% if password %}value="{{ password }}"{% endif %} required><br>
+  <br>
+     <button type="submit" name="action">Login</button>
+</form>
+</body>
+</html>
