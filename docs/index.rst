@@ -1,10 +1,24 @@
-.. myproject documentation master file, created by
-   sphinx-quickstart on Thu Jan 19 10:49:31 2017.
+.. dba16web documentation master file, created by
+   sphinx-quickstart on Tue Jan 31 14:06:57 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to myproject's documentation!
-=====================================
+Welcome to dba16web's documentation!
+====================================
+
+This is a project from the database course from the **FH-Bielefeld** in Germany.
+
+**Introduction**
+
+In this Django project-documentation you will see our project from WS16/17.
+This includes a a rest-service wich gets data from smartphones and save them in the database.
+Our web-app shows this data in charts.
+
+First of all you have to register on our Page for having complete access.
+
+For styling we used bootstrap-elements.
+
+In this documentation you will find our database-models and functions we used for it.
 
 .. toctree::
    :maxdepth: 2
@@ -20,10 +34,9 @@ Indices and tables
 * :ref:`search`
 
 
-Include the models.rst
-========================
+
 Contents:
 .. toctree::
 
-
    modules/models
+
