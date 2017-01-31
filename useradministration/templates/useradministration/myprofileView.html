@@ -1,6 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>eingeloggt</title>
+</head>
+<body>
 <h1>PROFILE VIEW</h1>
 
-<h3>Name: {% if username %}{{ username }}{% endif %}<h3>
+<h3>Name: {% if username %}{{ username }}{% endif %}</h3>
 <h3>E-Mail: {% if email %}{{ email }}{% endif %}</h3>
 <h3>Age: {% if age %}{{ age }}{% endif %}</h3>
 <h3>Gender: {% if gender %}{{ gender }}{% endif %}</h3>
@@ -18,4 +25,10 @@
   <input type="password" name="reppassword"><br>
   <br>
   <input type="submit" value="OK"/>
+</form> <br>
+<form action="{% url 'useradministration:eingeloggt' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" name="action">Logout</button>
 </form>
+</body>
+</html>
