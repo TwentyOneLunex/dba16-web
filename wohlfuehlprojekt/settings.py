@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['rs03-db-inf-min.ad.fh-bielefeld.de','127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'useradministration.apps.UseradministrationConfig',
+    'coreapp.apps.CoreappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
