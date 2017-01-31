@@ -1,3 +1,27 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../index"><img class="navbar-brand" src="http://i.imgur.com/duGBAxp.png" /></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../../index">Home</a></li>
+                <li><a href="../../users/login_user">Einloggen</a></li>
+                <li class="active"><a href="../../users/reg_user/">Registrieren</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br /><br /><br />
+
 {# Load the tag library #}
 {% load bootstrap3 %}
 
@@ -68,3 +92,6 @@
     <strong>An error occured!</strong><br>message: {{ error_message }}
 </div>
 {% endif %}
+
+</body>
+</html>

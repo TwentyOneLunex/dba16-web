@@ -3,32 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <title>eingeloggt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+    .logoutButton {
+        background-color: #F8F8F8;
+        border: none;
+        color: grey;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+    }
+    button {
+        background-color: #008CBA;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+    input {
+        display: block;
+        padding: 8px 16px;
+        border: none;
+        outline: none;
+        width: 20%;
+        border: 1px solid
+    }
+    </style>
 </head>
 <body>
-<h1>PROFILE VIEW</h1>
 
-<h3>Name: {% if username %}{{ username }}{% endif %}</h3>
-<h3>E-Mail: {% if email %}{{ email }}{% endif %}</h3>
-<h3>Age: {% if age %}{{ age }}{% endif %}</h3>
-<h3>Gender: {% if gender %}{{ gender }}{% endif %}</h3>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../home"><img class="navbar-brand" src="http://i.imgur.com/duGBAxp.png" /></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../../home">Home</a></li>
+                <li class="dropdown">
+                    <a href="../charts" class="dropdown-toggle" data-toggle="dropdown"
+                       role="button" aria-haspopup="true" aria-expanded="false">Diagramme <span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../charts#firstChartsNav">Einzelne Kuchendiagramme</a></li>
+                        <li><a href="../charts#secondChartsNav">Kombinierte Balkendiagramme</a></li>
+                    </ul>
+                </li>
+                <li><a href="../tables">Tabellen</a></li>
+                <li class="active"><a href="../myprofile/">Profil</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <form action="{% url 'coreapp:eingeloggt' %}" method="post">
+                        {% csrf_token %}
+                        <button class="logoutButton" type="submit" name="action">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-<hr>
-{% if info_message %}<p><strong><font color="green">{{ info_message }}</font></strong></p><br>{% endif %}
-{% if error_message %}<p><strong><font color="red">{{ error_message }}</font></strong></p><br>{% endif %}
+<br><br><br>
 
-<h4>Change your password if you like</h4>
-<form action="{% url 'coreapp:myprofile' %}" method="post">
-  {% csrf_token %}
-  new password:<br>
-  <input type="password" name="newpassword"><br>
-  repeat:<br>
-  <input type="password" name="reppassword"><br>
-  <br>
-  <input type="submit" value="OK"/>
-</form> <br>
-<form action="{% url 'coreapp:eingeloggt' %}" method="post">
-    {% csrf_token %}
-    <button type="submit" name="action">Logout</button>
-</form>
+<div class="container">
+    <h3>Profilübersicht</h3>
+
+    <h4>Name: {% if username %}{{ username }}{% endif %}</h4>
+    <h4>E-Mail: {% if email %}{{ email }}{% endif %}</h4>
+    <h4>Age: {% if age %}{{ age }}{% endif %}</h4>
+    <h4>Gender: {% if gender %}{{ gender }}{% endif %}</h4>
+
+    <hr>
+    {% if info_message %}<p><strong><font color="green">{{ info_message }}</font></strong></p><br>{% endif %}
+    {% if error_message %}<p><strong><font color="red">{{ error_message }}</font></strong></p><br>{% endif %}
+
+    <h4>Passwort ändern:</h4>
+    <form action="{% url 'coreapp:myprofile' %}" method="post">
+        {% csrf_token %}
+        <input type="password" name="newpassword" placeholder="Neues Passwort"><br>
+        <input type="password" name="reppassword" placeholder="Passwort wiederholen"><br>
+        <br>
+        <input type="submit" value="OK"/>
+    </form>
+    <br>
+    <form action="{% url 'coreapp:eingeloggt' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" name="action">Logout</button>
+    </form>
+</div>
 </body>
 </html>

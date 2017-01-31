@@ -455,6 +455,11 @@ class HomePageView(TemplateView):
 
     template_name = "coreapp/home.html"
 
-class DataanalysesPageView(TemplateView):
+class MyprofilePageView(TemplateView):
 
-    template_name = "coreapp/dataanalyses.html"
+    template_name = "coreapp/myprofileView.html"
+
+class TablesPageView(TemplateView):
+
+    template_name = "coreapp/tables.html"
+
